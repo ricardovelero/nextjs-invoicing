@@ -123,13 +123,28 @@ export async function deleteInvoice(formData: FormData) {
 
 export async function authenticate(
   prevState: string | undefined,
-  formData: FormData,
+  formData: FormData
 ) {
   try {
     await signIn('credentials', Object.fromEntries(formData));
   } catch (error) {
     if ((error as Error).message.includes('CredentialsSignin')) {
       return 'CredentialsSignin';
+    }
+    throw error;
+  }
+}
+
+export async function emailSignin(
+  prevState: string | undefined,
+  formData: FormData
+) {
+  try {
+    await signIn('Email', Object.fromEntries(formData));
+  } catch (error) {
+    console.log(error);
+    if ((error as Error).message.includes('EmailSignin')) {
+      return 'EmailSignin';
     }
     throw error;
   }
